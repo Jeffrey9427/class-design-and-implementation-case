@@ -26,39 +26,43 @@ A large company with locations in different cities has taken an OOP approach in 
 
 ```java
 public class SalesPerson{
-  // each object contains details of one salesperson
-  private String id;
-  private Sales[] salesHistory; // details of the different sales
-  private int count = 0; // number of sales made
+    // each object contains details of one salesperson
+    private String id;
+    private Sales[] salesHistory; // details of the different sales
+    private int count = 0; // number of sales made
+    
+    //constructor for a new salesperson
+    public SalesPerson(String id) {
+        // code missing
+    }
+    
+    // constructor for a salesperson transferred (together with their sales details) from another branch
+    public SalesPerson(String id, Sales[] s, int c) {
+	// code missing
+    }
+    
+    public int getCount() {
+       return count;
+    }
+    
+    public String getId() {
+       return id;
+    }
 
-	//constructor for a new salesperson
-	public SalesPerson(String id){
-		// code missing
-	}
+    public void setSalesHistory(Sales s) {
+	salesHistory[count] = s;
+	count = count +1;
+    }
 
-	// constructor for a salesperson transferred (together with their sales details) from 			another branch
-	public SalesPerson(String id, Sales[] s, int c){
-		// code missing
-	}
+    public double calcTotalSales() {
+	// calculates total sales for the salesperson
+	// code missing
+    }
 
-  public int getCount(){return count;}
-
-  public String getId() {return id;}
-
-  public void setSalesHistory(Sales s){
-    salesHistory[count] = s;
-    count = count +1;
-  }
-
-	public double calcTotalSales(){
-		// calculates total sales for the salesperson
-		// code missing
-	}
-
-	public Sales largestSale(){
-		// calculates the sale with the largest value
-		// code missing
-	}
+    public Sales largestSale(){
+	// calculates the sale with the largest value
+	// code missing
+    }
 }
 ```
 
@@ -68,10 +72,10 @@ public class SalesPerson{
 
 ```java
 ...
-  public SalesPerson(String id) {
-      this.id = id;
-      this.salesHistory = new Sales[100];
-  }
+    public SalesPerson(String id) {
+	this.id = id;
+	this.salesHistory = new Sales[100];
+    }
 ...
 ```
 
@@ -81,15 +85,20 @@ public class SalesPerson{
 
 ```java
 public class Sales {
-  // each object contains details of one sale
-  private String itemId;   // id of the item
-  private double value;   // the price of one item
-  private int quantity;   // the number of the items sold
-
-  // constructor missing
-
-  public double getValue() {return value;}
-  public int getQuantity() {return quantity;}
+    // each object contains details of one sale
+    private String itemId;   // id of the item
+    private double value;   // the price of one item
+    private int quantity;   // the number of the items sold
+    
+    // constructor missing
+    
+    public double getValue() {
+        return value;
+    }
+  
+    public int getQuantity() {
+        return quantity;
+    }
 }
 ```
 
@@ -107,22 +116,22 @@ public class Sales {
 
 ```java
 ...
-  public static void main(String[] args){
-    SalesPerson[] salesPeople = new SalesPerson[6];
+    public static void main(String[] args){
+        SalesPerson[] salesPeople = new SalesPerson[6];
 
-    salesPeople[0] = new SalesPerson("100");
-    salesPeople[1] = new SalesPerson("101");
-    salesPeople[2] = new SalesPerson("102");
-
-    salesPeople[0].setSalesHistory(new Sales("A100",300.00,10));
-    salesPeople[0].setSalesHistory(new Sales("A200",1000.00,2));
-    salesPeople[1].setSalesHistory(new Sales("A300",2550.40,10));
-
-    System.out.println(salesPeople[2].getId());
-    System.out.println(salesPeople[0].getCount());
-    System.out.println(salesPeople[1].getSalesHistory(0).getValue());
-    System.out.println(salesPeople[0].calcTotalSales());
-  }
+        salesPeople[0] = new SalesPerson("100");
+	salesPeople[1] = new SalesPerson("101");
+	salesPeople[2] = new SalesPerson("102");
+	
+	salesPeople[0].setSalesHistory(new Sales("A100",300.00,10));
+	salesPeople[0].setSalesHistory(new Sales("A200",1000.00,2));
+	salesPeople[1].setSalesHistory(new Sales("A300",2550.40,10));
+	
+	System.out.println(salesPeople[2].getId());
+	System.out.println(salesPeople[0].getCount());
+	System.out.println(salesPeople[1].getSalesHistory(0).getValue());
+	System.out.println(salesPeople[0].calcTotalSales());
+    }
 ...
 ```
 
@@ -134,18 +143,18 @@ public class Sales {
 
 ```java
 ...
-  public double calcTotalSales() {
-    // calculates total sales for the salesperson
-    double totalSales = 0;
-    for (Sales sales : salesHistory) {
-        if (sales == null) {
-            break;
-        }
+    public double calcTotalSales() {
+        // calculates total sales for the salesperson
+        double totalSales = 0;
+        for (Sales sales : salesHistory) {
+            if (sales == null) {
+                break;
+            }
 
-        totalSales += sales.getValue() * sales.getQuantity();
+            totalSales += sales.getValue() * sales.getQuantity();
+        } 
+        return totalSales;
     }
-    return totalSales;
-  }
 ...
 ```
 
@@ -155,24 +164,24 @@ public class Sales {
 
 ```java
 ... 
-	public static String highest(SalesPerson[] salesPeople) {
+    public static String highest(SalesPerson[] salesPeople) {
   	//returns the ID of the salesPerson whose sales have the largest value
-    String id = "";
-    double highest = salesPeople[0].calcTotalSales();
+    	String id = "";
+    	double highest = salesPeople[0].calcTotalSales();
 
-    for (SalesPerson salesPerson : salesPeople) {
-        if (salesPerson == null) {
-            break;
+    	for (SalesPerson salesPerson : salesPeople) {
+            if (salesPerson == null) {
+           	break;
+            }
+
+       	    if (salesPerson.calcTotalSales() > highest) {
+                highest = salesPerson.calcTotalSales();
+                id = salesPerson.getId();
+            }
         }
 
-        if (salesPerson.calcTotalSales() > highest) {
-            highest = salesPerson.calcTotalSales();
-            id = salesPerson.getId();
-        }
+        return id;
     }
-
-    return id;
-  }
 ...
 ```
 
@@ -182,15 +191,15 @@ public class Sales {
 
 ```java
 ...
-	public static void addSales(Sales s, String id) {
-    //add a new Sales object s, to the salesPerson with a specified ID
-    for (SalesPerson salesPerson : salesPeople) {
-        if (salesPerson != null && salesPerson.getId().equals(id)) {
-            salesPerson.setSalesHistory(s);
-            return; 
-        }
+    public static void addSales(Sales s, String id) {
+        //add a new Sales object s, to the salesPerson with a specified ID
+    	for (SalesPerson salesPerson : salesPeople) {
+            if (salesPerson != null && salesPerson.getId().equals(id)) {
+            	salesPerson.setSalesHistory(s);
+            	return; 
+            }
+    	}
     }
-  }
 ...
 ```
 
